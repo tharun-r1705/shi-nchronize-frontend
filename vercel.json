@@ -19,12 +19,27 @@
       "dest": "backend/server.js"
     },
     {
-      "src": "/robots.txt",
-      "dest": "/public/robots.txt"
+      "src": "/assets/(.*)",
+      "headers": {
+        "Cache-Control": "public, max-age=31536000, immutable"
+      }
     },
     {
-      "src": "/favicon.ico",
-      "dest": "/public/favicon.ico"
+      "src": "/(.*\\.(js|mjs|css|png|jpg|jpeg|gif|svg|ico|woff|woff2|ttf|eot|map)$)",
+      "headers": {
+        "Cache-Control": "public, max-age=31536000, immutable"
+      }
+    },
+    {
+      "src": "/robots.txt",
+      "dest": "/robots.txt"
+    },
+    {
+      "src": "/favicon.ico", 
+      "dest": "/favicon.ico"
+    },
+    {
+      "handle": "filesystem"
     },
     {
       "src": "/(.*)",
@@ -34,7 +49,9 @@
   "env": {
     "NODE_ENV": "production"
   },
-  "outputDirectory": "dist",
-  "installCommand": "npm install && cd backend && npm install",
-  "buildCommand": "npm run build"
+  "functions": {
+    "backend/server.js": {
+      "maxDuration": 10
+    }
+  }
 }
